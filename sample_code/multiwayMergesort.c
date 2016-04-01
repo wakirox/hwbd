@@ -20,14 +20,14 @@
 #include <string.h>
 #include <stdio.h>
 
-#ifdef __MAC__
-
-#define off64_t off_t
-#define fopen64 fopen
+//#ifdef __MAC__
+//
+//#define off64_t off_t
+//#define fopen64 fopen
 //#define fseeko64 fseeko
 //#define ftello64 ftello
-
-#endif
+//
+//#endif
 
 /* constants */
 #define DEBUG 1

@@ -7,4 +7,4 @@
 
 #endif //TEST_MULTIWAY_MAIN_H
 
-int multiway_sort_custom(char * file, long block_size_in_bytes, long internal_external_0_1, long main_memory_size);
+int multiway_sort_custom(char * file, long block_size_in_bytes, long internal_external_0_1, long main_memory_size,int (*compare)(const void*, const void*));
