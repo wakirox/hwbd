@@ -8,13 +8,16 @@
 #include "stdio.h"
 #include "utils.h"
 
-#include "sample_code/multiway_main.h"
+#include "sample_code/multiwayMergesort.h"
+#include "sample_code/make_rand_file.h"
 
-typedef unsigned long item_type;
-size_t  sz = sizeof(unsigned long);
+typedef unsigned item_type;
+size_t  sz = sizeof(item_type);
 
 int custom_comparatorFirstElement(const void * a, const void * b){
-    return (int) ( *(item_type *)(a)- *(item_type *)(b));
+
+    return  (int) ((*(item_type *)(a))- (*(item_type *)(b)));
+
 }
 
 int custom_comparatorSecondElement(const void * a, const void * b){
@@ -28,32 +31,19 @@ void sortAccordingToFirstIndex(char *file);
 
 void replaceFirstItem(char *file, char *tempFile);
 
+void sortAccordingToSecondIndex(char * file);
+
+void writeSolution(char * inputFile) ;
+
+int multiway_sort_custom(char * file, long block_size_in_bytes, long internal_external_0_1, long main_memory_size,int (*compare)(const void*, const void*));
+
 char * tempFile = "./temp_file.txt";
 
-void sortAccordingToSecondIndex(char * file){
-    multiway_sort_custom(file,1000,1,2000,custom_comparatorSecondElement);
-}
-
-void writeSolution(char * inputFile) {
-    FILE * source = fopen64(tempFile,"r");
-    checkIfNull(source);
-
-    FILE * destination = fopen64(inputFile,"r+");
-    checkIfNull(destination);
-
-    unsigned long val;
-    while(fread(&val, sz ,1,source)!=0){
-        fwrite(&val,sz,1,destination);
-        fseeko64(source,sz,SEEK_CUR);
-    }
-
-    checkIfNotZero(fclose(source));
-    checkIfNotZero(fclose(destination));
-
-    remove(tempFile);
-}
 
 int main(int argc, char * argv[]) {
+
+    makePermutationFile("D:/BIG_DATA/randPermutation.txt",100);
+    return 0;
 
     if(argc!=3){
         printf("Usage: %s <file_path_of_input_file> <file_path_of_permutation_file>",argv[0]);
@@ -76,6 +66,30 @@ int main(int argc, char * argv[]) {
     exit(EXIT_SUCCESS);
 }
 
+void sortAccordingToSecondIndex(char * file){
+    multiway_sort_custom(file, 4096, 1,  1048576,custom_comparatorSecondElement);
+}
+
+void writeSolution(char * inputFile) {
+    FILE * source = fopen64(tempFile,"r");
+    checkIfNull(source);
+
+    FILE * destination = fopen64(inputFile,"r+");
+    checkIfNull(destination);
+
+    unsigned long val;
+    while(fread(&val, sz ,1,source)!=0){
+        fwrite(&val,sz,1,destination);
+        fseeko64(source,sz,SEEK_CUR);
+    }
+
+    checkIfNotZero(fclose(source));
+    checkIfNotZero(fclose(destination));
+
+    remove(tempFile);
+}
+
+
 void replaceFirstItem(char *file, char *tempFile) {
     FILE * source = fopen64(file,"r");
     checkIfNull(source);
@@ -83,25 +97,19 @@ void replaceFirstItem(char *file, char *tempFile) {
     FILE * destination = fopen64(tempFile,"r+");
     checkIfNull(destination);
 
-//    fseeko64(destination,0,SEEK_SET);
-
     unsigned long val;
-
-
 
     while(fread(&val, sz ,1,source)!=0){
         fwrite(&val,sz,1,destination);
         fseeko64(destination,sz,SEEK_CUR);
-        printf("Scritto \n");
     }
 
     checkIfNotZero(fclose(source));
     checkIfNotZero(fclose(destination));
-    printf("Finito di scrivere\n");
 }
 
 void sortAccordingToFirstIndex(char *file) {
-    multiway_sort_custom(file,1000,1,2000,custom_comparatorFirstElement);
+    multiway_sort_custom(file, 4096,1,1048576 , custom_comparatorFirstElement);
 }
 
 void generateFilePairs(char *file, char *tempFile) {
@@ -110,33 +118,38 @@ void generateFilePairs(char *file, char *tempFile) {
 
     FILE * destination = fopen64(tempFile,"w");
     checkIfNull(destination);
-
-//    int * read_buff = malloc(sizeof(int));
-
-//    while( fread(&read_buff,sizeof(unsigned long),1,source) != 0){
-//        printf("This -> %lu",read_buff);
-//        fprintf(destination,"%lu%lu",read_buff,index++);
-//    }
-
-//    fseek(source, 0, SEEK_SET);
-
     unsigned long val;
 
-
-    size_t  sz = sizeof(unsigned long);
     unsigned long index = 1;
     while(fread(&val, sz ,1,source)!=0){
         fwrite(&val,sz,1,destination);
         fwrite(&index,sz,1,destination);
         index++;
-        printf("Scritto \n");
     }
 
     checkIfNotZero(fclose(source));
     checkIfNotZero(fclose(destination));
-    printf("Finito di scrivere\n");
 }
 
+int multiway_sort_custom(char * file, long block_size_in_bytes, long internal_external_0_1, long main_memory_size,int (*compare)(const void*, const void*)){
+
+    int theErrCode;
+
+    /* check command line parameters */
+//    if (argc < 5)
+//        exit((fprintf(stderr,
+//                      "Usage: fileName block_size_in_bytes k internal/external(0/1)\nMain memory size M = blockSize x k\n"),1));
+
+    /* sort file of ItemType integers */
+    theErrCode = sort(	file, sz*2,
+                          compare, block_size_in_bytes, internal_external_0_1, main_memory_size, 0);
+
+    /* check if the call failed */
+    if (theErrCode != 0)
+        fprintf(stderr, "%s\n", GetErrorString(theErrCode));
+
+    return theErrCode;
+}
 
 
 

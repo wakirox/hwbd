@@ -8,3 +8,5 @@
 #endif //TEST_HELLO_H
 
 void clearFiles();
+void sortAccordingToFirstIndex(char *file);
+void sortAccordingToSecondIndex(char * file);

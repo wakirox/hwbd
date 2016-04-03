@@ -4,12 +4,10 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/utils.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/sample_code/make_rand_file.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/sample_code/multiway_main.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sample_code/make_rand_file.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/sample_code/multiwayMergesort.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sample_code/multiwayMergesort.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/sample_code/multiway_main.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sample_code/make_rand_file.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sample_code/multiwayMergesort.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/utils.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.h" isTestSource="false" />
